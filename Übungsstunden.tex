@@ -1,0 +1,177 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage[nswissgerman]{babel}
+%4 stackanchor  
+\usepackage{stackengine}
+% define nice looking boxes
+\usepackage[many]{tcolorbox}
+
+% a base set, that is then customised
+\tcbset {
+  base/.style={
+    boxrule=0mm,
+    leftrule=1mm,
+    left=1.75mm,
+    arc=0mm, 
+    fonttitle=\bfseries, 
+    colbacktitle=black!10!white, 
+    coltitle=black, 
+    toptitle=0.75mm, 
+    bottomtitle=0.25mm,
+    title={#1}
+  }
+}
+\definecolor{brandblue}{rgb}{0.34, 0.7, 1}
+\newtcolorbox{mainbox}[1]{
+  colframe=brandblue, 
+  base={#1}
+}
+
+\definecolor{orange}{rgb}{1, 0.55, 0.3}
+\newtcolorbox{tbox}[1]{
+  colframe=orange, 
+  base={#1}
+}
+
+\definecolor{green}{rgb}{0.294, 0.729, 0.254}
+\newtcolorbox{bembox}[1]{
+  colframe=green, 
+  base={#1}
+}
+
+\definecolor{red}{rgb}{0.99, 0.04, 0.99}
+\newtcolorbox{tipbox}[1]{
+  colframe=red, 
+  base={#1}
+}
+
+\newtcolorbox{defbox}[1]{
+  colframe=black!20!white,
+  base={#1}
+}
+% Mathematical typesetting & symbols
+\usepackage{amsthm, mathtools, amssymb} 
+\usepackage{marvosym, wasysym}
+
+
+\allowdisplaybreaks
+
+% Tables
+\usepackage{tabularx, multirow}
+\usepackage{booktabs}
+\renewcommand*{\arraystretch}{2}
+
+% Make enumerations more compact
+\usepackage{enumitem}
+\setitemize{itemsep=0.5pt}
+\setenumerate{itemsep=0.75pt}
+
+% To include sketches & PDFs
+\usepackage{graphicx}
+
+% For hyperlinks
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true
+}
+% Math helper stuff
+\def\limn{\lim_{n\to \infty}}
+\def\limxo{\lim_{x\to 0}}
+\def\limxi{\lim_{x\to\infty}}
+\def\limxn{\lim_{x\to-\infty}}
+\def\sumk{\sum_{k=1}^\infty}
+\def\sumn{\sum_{n=0}^\infty}
+\def\R{\mathbb{R}}
+\def\C{\mathbb{C}}
+\def\dx{\text{ d}x}
+\usepackage[utf8]{inputenc}
+
+\title{Übungsstunden}
+\author{Konstantin Lucny}
+\date{HS 2023}
+\begin{document}
+\maketitle
+
+\section{Übungsstunde}
+\section{Übungsstunde}
+\subsection{Lineare ODEs Ordnung 1 Beispiele}
+\begin{tipbox}
+    {Anleitung Lösung ODEs 1. Ordnung}
+     $y'+a(x)y=b(x)$
+    \begin{enumerate}
+        \item $f_1(x)$ Lösung des Homogenen Problems $y'+a(x)y=0$\\[3pt]
+        $f_1$ als Basis der homogenen Lösung $f_1=exp(-A(x)),\ A(x)=\int a(x)$\\[3pt]
+        (falls $b(x)=0, f=c\cdot f_1(x), c\in \R$)
+        \item $f_0(x)$ partikulär Lösung von $y'+a(x)y=b(x)$\\[3pt]
+        $f_0(x)=z(x)\cdot \exp{(-A(x))}$, $z(x)$ primitive von $b(x)\cdot \exp{(A(x))}, \ z(x)=\int b(x)\exp{(\int a(x))}dx$
+        \item $y=f_0+c_1f, \ c_1 \in \R$
+        \item Kontrollieren
+        \item Anfangswertproblem: $y(0)=0; \ y(x_0)=y_0$
+    \end{enumerate}
+\end{tipbox}
+\begin{itemize}
+    \item Beispiel: $y'+\frac{1}{x}y=x^2+4$
+    \begin{enumerate}
+        \item $A(x)=\int \frac{1}{x}dx = \ln(x)$\\[1pt]
+        $y'+\frac{1}{x}=0$\\[1pt]
+        $f_1=\exp(-A(x))=e^{-\ln(x)}=\frac{1}{x}$
+        \item $A(x)=\frac{1}{x}$\\[1pt]
+        $z(x)=\int(x^2+4)x \dx=\int x^3 +4x \dx =\frac{1}{4}x^4+2x^2$\\[1pt]
+        $z_0=(\frac{1}{4}x^4+2x^2)\cdot \frac{1}{x}=\frac{1}{4}x^3+2x$
+        \item $y=\frac{1}{4}x^3+2x+c_1\cdot\frac{1}{x}, c_1\in\R$
+        \item $(\frac{1}{4}x^3+2x+\frac{c_1}{x})'+\frac{1}{x}(\frac{1}{4}x^3+2x+\frac{c_1}{x})=\frac{3}{4}x^2+2-\frac{c_1}{x^2}+\frac{1}{4}x^2+2+\frac{c_1}{x^2}=x^2+4$
+    \end{enumerate}
+    \pagebreak
+    \item Beispiel: $y'-y=x$
+    \begin{enumerate}
+        \item $A(x)=\int -1 \dx= -x$\\[1pt]
+        $f_1=\exp(-(-x))=e^x$
+        \item $z(x)=\int x\cdot e^{-x} \dx=-xe^{-x}-\int e^-x\dx=-xe^{-x}-e^{-x}=
+        \\-(x+1)e^{-x}$\\[1pt]
+        $f_0=-(x+1)e^{-x}e^x=-(x+1)$
+        \item $y=-(x+1)+c_1e^x, c_1\in\R$\\[1pt]
+        \textbf{Überprüfung}: $(-(x+1)+c_1e^x)'+(x+1)-c_1e^x=-1+c_1e^x+x+1-c_1e^x=x$
+        \item Wenn Anfangswert gegeben ist: $x_0=0, y_0=0, y(0)=0$\\[1pt]
+        $\implies 0-(0+1)+c_1e^0=0\\
+        \iff -1+c_1=0\\
+        \iff c_1 = 1$\\[1pt]
+        $y=-(x+1)+e^x$
+    \end{enumerate}
+\end{itemize}
+\subsection{Lineare ODE's mit Konstanten Faktoren}
+$y^{(k)}+a_{k-1}y^{(k-1)}+...+a_1y'+a_0y=b(x)\implies a_0,...,a_{k-1}$ konstante, $\in\R$\\[1pt]
+\begin{tipbox}
+    {Theorie: Lineare ODE's Ordnung $k\ge1$}
+    \begin{enumerate}
+        \item Lösung des Homogenen Problems $(b(x)=0)$\\[1pt]
+        Suche $f_1,...,f_k$ Lösungen die einen \underline{k-dimensionalen} Raum strecken.
+        \item Suchen eine partikulär Lösung für $b(x)\neq 0$ also
+        $f_0$
+        \item $y=f_0+\sum_{i=1}^kc_if_i$ $(c_1,...,c_k\in\R)$
+        \item Bei Anfangswertproblem: $y(x_0)=y_0,...,y^{(k-1)}(x_0)=y_{k-1}$
+    \end{enumerate}
+\end{tipbox}
+\begin{tbox}
+    {Theo 2.2.3: Lineare ODE's mit $a_0,...,a_{k-1},b$ stetig}
+    Vorraussetzung: $a_0,...,a_{k-1},b$ stetig
+    \begin{enumerate}
+        \item Lösungen der Homogenen Gleichung bildet einen \underline{k-dimensionalen} Vektorraum
+        \item Lösung des inhomogenen Problems ist der affine Raum: $f_0+\sum c_i f_i$
+        \item Für $k$ Anfangswerte ist die Lösung eindeutig
+    \end{enumerate}
+\end{tbox}
+\begin{bembox}
+    {Grad einer Gleichung}
+    ODE's Ordnung $k\ge 2$ kann man in ein System von \underline{k Gleichungen} umwandeln mit \underline{Grad 1}\\[2pt]
+    \textbf{Bsp.:} $y''+y'=3\ (z_0=y, z_1=y')\implies
+    \begin{cases}
+        z_1'+z_1=3\\
+        z_0'=z_1
+    \end{cases}$\\[2pt]
+    $z_0''+z_0'=3$
+\end{bembox}
+\textbf{Woher kommt $f_1$ eigentlich?}\\
+$f_1=\exp(-A(x))$\\[2pt]
+$y'+a(x)y=0$\\[2pt]
+$\implies y'+ay=0 \iff \frac{y'}{y}=-a\iff \int \frac{y'}{y} \dx =\int -a\dx \iff \ln(y)=-A(x)\iff y=\exp(-A(x))$ 
+\end{document}

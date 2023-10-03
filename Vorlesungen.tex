@@ -1,0 +1,228 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{geometry}
+\geometry{margin=1.2in}
+\usepackage{graphicx} % Required for inserting images
+\usepackage[nswissgerman]{babel}
+%4 stackanchor  
+\usepackage{stackengine}
+% define nice looking boxes
+\usepackage[many]{tcolorbox}
+% a base set, that is then customised
+\tcbset {
+  base/.style={
+    boxrule=0mm,
+    leftrule=1mm,
+    left=1.75mm,
+    arc=0mm, 
+    fonttitle=\bfseries, 
+    colbacktitle=black!10!white, 
+    coltitle=black, 
+    toptitle=0.75mm, 
+    bottomtitle=0.25mm,
+    title={#1}
+  }
+}
+\definecolor{brandblue}{rgb}{0.34, 0.7, 1}
+\newtcolorbox{mainbox}[1]{
+  colframe=brandblue, 
+  base={#1}
+}
+
+\definecolor{orange}{rgb}{1, 0.55, 0.3}
+\newtcolorbox{tbox}[1]{
+  colframe=orange, 
+  base={#1}
+}
+
+\definecolor{green}{rgb}{0.294, 0.729, 0.254}
+\newtcolorbox{bembox}[1]{
+  colframe=green, 
+  base={#1}
+}
+
+\definecolor{red}{rgb}{0.99, 0.04, 0.99}
+\newtcolorbox{tipbox}[1]{
+  colframe=red, 
+  base={#1}
+}
+
+\newtcolorbox{defbox}[1]{
+  colframe=black!20!white,
+  base={#1}
+}
+% Mathematical typesetting & symbols
+\usepackage{amsmath, mathtools, amssymb}
+
+\usepackage{marvosym, wasysym}
+
+
+\allowdisplaybreaks
+
+% Tables
+\usepackage{tabularx, multirow}
+\usepackage{booktabs}
+\renewcommand*{\arraystretch}{2}
+
+% Make enumerations more compact
+\usepackage{enumitem}
+\setitemize{itemsep=0.5pt}
+\setenumerate{itemsep=0.75pt}
+
+% To include sketches & PDFs
+\usepackage{graphicx}
+
+% For hyperlinks
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true
+}
+% Math helper stuff
+\def\limn{\lim_{n\to \infty}}
+\def\limxo{\lim_{x\to 0}}
+\def\limxi{\lim_{x\to\infty}}
+\def\limxn{\lim_{x\to-\infty}}
+\def\sumk{\sum_{k=1}^\infty}
+\def\sumn{\sum_{n=0}^\infty}
+\def\R{\mathbb{R}}
+\def\dx{\text{ d}x}
+\usepackage[utf8]{inputenc}
+
+\title{Vorlesungen}
+\author{Konstantin Lucny}
+\date{HS 2023}
+\begin{document}
+\maketitle
+\section{Einführung}
+\section{Gewöhnliche Differentialrechnung (ODE)}
+\subsection{Einleitung (\today)}
+$e^{y''(x)\cdot y(x)}+\sin(\sqrt{y})-3=0$\\
+\begin{defbox}
+{Definition: Differentialgleichung}
+    \textbf{Definition}: Eine Gleichung der Form $G(y,y',...,y^{(k)},x)=0$ heisst gewöhnliche Differentialgleichung.\\
+Eine \underline{Lösung} ist eine k-mal differenzierbare Funktion $f:I\rightarrow \mathbb{R}$ auf einem offenen Intervall $I$ mit $G(f(x),f'(x),...f^{(k)}(x), x)= 0$ für alle  $x\in I$.\\
+\end{defbox}
+\begin{defbox} %evtl entfernen nicht nötig
+    {Definition Übungsstunde: Differentialgleichung}
+    ODE = Gleichung wo wir eine Funktion suchen und deren Ableitung vorkommt.
+\end{defbox}
+Beispiele in Notizen \today\\
+\textbf{Achtung}: 
+\begin{itemize}
+    \item Es darf \underline{nur} x bei y(x) sein und nichts anderes z.B. $y(\tan(x))$
+    \item Es \underline{muss} die Ableitung in der Formel sein. Sonst kein OED
+\end{itemize}Es darf \underline{nur} x bei y(x) sein und nichts anderes z.B. $y(\tan(x))$
+\begin{defbox}
+    {Definition Übungsstunde: Lineare ODE}
+    Lineare ODE = $y^{(k)}+a_{k-1}y^{(k-1)}+...+a_1y'+a_0y=\alpha$
+\end{defbox}
+\begin{defbox}
+    {Definition Übungsstunde: Homogenes ODE}
+    $\alpha = 0$ ($\alpha$ von Linearem ODE)\\
+    \textbf{Inhomogener} ODE := $a\neq 0$
+\end{defbox}
+\begin{tipbox}
+    {Vorgangsweise: Inhomogenes ODE lösen}
+    \begin{enumerate}
+        \item \underline{inhomogenes} ODE wir \underline{homogenes} ODE lösen
+        \item dann nach der Zahl $\alpha$ lösen
+    \end{enumerate}
+\end{tipbox}
+\begin{defbox}
+    {Definition: Ordnung}
+    $k\ge 1$ heisst \underline{Ordnung} der ODE (ordinary differential equation). Die Ordnung = \textbf{höchster} Ableitungsgrad
+\end{defbox}
+Ist zu der Definition noch zusätzlich $y(x_0)=y_0, y'(x_0)=y_1,...,y^{(k-1)}(x_0)=y_{k-1}$ mit $x_0, y_1,...,y_{k-1}\in\mathbb{R}$ erfüllt, spricht man von einem \underline{Anfangspunktproblem}.\\
+\begin{bembox}
+    {Info: ODEs Verwendung}
+    ODEs eignen sich zur \textbf{Modellierung} von z.B. 2. Newtonsche Gesetz: $y(x)=$ Position eines Körpers von Masse $m$ zur zeit $x$. Dann erfüllt $y$ die ODE $my''=$ Summe des auf den Körper wirkenden Kräfte. 
+\end{bembox}
+Sind beim obrigen Beispiel $y(x_0), y'(x_0)$ vorgegeben, dann liegt ein Anfangsproblem vor.
+\begin{tipbox}
+    {Lösungsmethode: Seperation der Variablen (Kap. 2.6)}
+    ODE der Form $y'=\frac{1}{a(y)}\cdot b(x)$ mit $a,b$ stetig, \\
+    $a(y)\neq0$
+    \\ $\iff a(y)\cdot y'=b(x)$
+    \\ $\iff \int a(y)\cdot y'(x)dx=\int b(x) dx +c$
+    \\ $A(y)=B(x)+c$ wobei $A,B$ Stammfunktionen von $a,b \implies y = A^{-1}(B(x)+c)$ falls $A^{-1}$ eine Umkehrfunktion von $A$ ist.
+\end{tipbox}
+\textbf{Bsp}. zu obrigen Lösung\\
+$y'=\begin{cases}
+    0 & für\ y\le0\\
+    -\sqrt{y} & sonst
+    \end{cases}$\\
+$a(y)=\frac{-1}{\sqrt{y}}$ falls $y>0$, $b(x)=1$
+\\ $A(y)=-2\sqrt{y}, B(x)=x \implies -2\sqrt{y}=x+c\iff \sqrt{y}=-\frac{1}{2}(x+c)$
+\\ $y=\frac{1}{4}(x+c)^2\implies$ Lösung: $f(x)=\frac{1}{4}(x+c)^2$ auf $(-\infty,-0)$
+\begin{tbox}
+    {Existenz \& Eindeutigkeitssatz (2.1.6)}
+    \textbf{Kurze Def.}: Ein Anfangswertproblem $y'=F(y,x)$ $y(x_0)=y_0$ mit $F$ stetig differenzierbar, gibt es \underline{genau} eine \underline{maximale} Lösung.\\[10pt]
+    \textbf{Detailierte Version:} Ist $F:\mathbb{R}^2\rightarrow \mathbb R $ in einer Umgebung von $(y_0,x_0)$ stetig ist, und nach $y$ differenzierbar ist, dann gibt es eine Lösung $f:I\rightarrow\mathbb R$ auf einem offenen $I$ mit $x_0\in I$, sodass für jede andere Lösung $g:J\rightarrow\mathbb R$ gilt: $J\subseteq I, f|_J=g$
+\end{tbox}
+\textbf{Beispiel} (zu 2.1.6): Siehe Notizen \today\\[5pt]
+\textbf{Achtung}: Diese Definition gilt nur für die 1. Ordnung.
+\begin{bembox}
+    {Bemerkung 2.1.4: Systeme von ODEs (\today)}
+    (nicht weiter wichtig)\\
+    Eine ODE von Ordnung $k\ge 2$ lässt sich als System von $k$ ODEs von Ordnung $1$ unbekannten Funktionen $z_0,...,z_{k-1}$ umschreiben (Bsp. Notizen \today).
+\end{bembox}
+\begin{bembox}
+    {Bemerkung: Ausblick}
+    Versionen des Existenz- und Eindeutigkeitssatzes gelten auch für Systeme von ODE, und ODE von Ordnung $\ge 2$
+\end{bembox}
+\subsection{Lineare ODEs}
+\begin{defbox}
+    {Definition 2.2.1: Lineare ODEs}
+    Eine \underline{lineare ODE} von Ordnung $k\ge 1$ ist eine Gleichung $y^{(k)}+a_{k-1}y^{(k-1)}+...+a_0y=b$, wobei die \underline{Koeffizienten} $a_0,...,a_{n-1}$ und die \underline{Inhomogenität} b Funktionen $I\rightarrow\mathbb C$, wobei $I\subseteq \mathbb R$\\[7pt]
+    Eine \underline{Lösung} ist eine k-mal differenzierbare Funktion $f:I\rightarrow \mathbb C$ mit $$f^{(k)}(x)+a_{k-1}(x)f^{(k-1)}(x)+...+a_0(x)f(x)=b(x)$$ für alle $x\in I$ wobei $f'(x)=(\Re (f(x)))'+i(\Im (f(x)))'$\\
+    Bei der Frage ob eine ODE Linear ist achtet man \underline{nur} auf y.
+\end{defbox}
+\begin{defbox}
+    {Definition: Homogen \& Inhomogen}
+    Falls $b=0$, heisst die Gleichung untenstehend \underline{homogen}, sonst \underline{inhomogen}.\\
+    Die Gleichung $y^{(k)}+a_{k-1}y^{(k-1)}+...+a_0y=0$ heisst die \underline{zugehörige homogene} lineare ODE.\\
+    \textbf{Wichtig}: Homogen \& Inhomogen kann man \underline{nur} bei linearen ODEs verwenden.
+\end{defbox}
+Beispiele zu Homogenität und Liniarität Notizen \today.\\[3pt]
+\begin{bembox}
+    {Bemerkung: Linearität und Homogenität}
+    Sind $f_1,f_2$ Lösungen einer homogenen linearen ODE, so auch $\mu f_1+\lambda f_2$ für $\lambda, \mu \in \mathbb C$
+\end{bembox}
+\begin{tbox}
+    {Satz 2.2.3}
+    Annahme: $a_0,...,a_{k-1},b$ stetig.\\
+    Dan gilt:
+    \begin{itemize}
+        \item Die Lösungen der \underline{homogenen} linearen ODE bilden einen $\mathbb C$-Vektorraum $S$ \\
+        mit $dim_{\mathbb C} S = k$
+        \item Die \underline{inhomogene} ODE hat eine Lösung $f_0$. Die Menge aller Lösungen ist $f_0+S$
+        Für beliebige $x_0\in I;\ y_0,...,y_{k-1}\in\mathbb C$ hat das Anfangswertproblem von der Annahme und $y(x_0)=y_0, y'(x_0)=y_1,...,y^{(k-1)}(x_0)=y_{k-1}$ 
+        \item $a_0,...,a_{k-1},b$ reellwertig $\implies \{\text{reellwertiger } f\in S\}$ ist ein $\mathbb R$-VR von $dim = k$. Die inhomogene ODE hat eine Lösung $f_0:I\rightarrow \mathbb R$. Die gesamte Lösungsmenge ist $f_0+\{\text{reellwertige} f\in S$.\\
+        Für $x_0\in I; y_0,...,y_{k-1}\in\mathbb R$ hat das entsprechende Anfangswertproblem genau eine Lösung.
+    \end{itemize}
+\end{tbox}
+\begin{tipbox}
+    {Lösungsstrategie: ODE}
+    \begin{enumerate}
+        \item Finde Bases $f_1,...,f_n$ von S der \underline{homogenen} ODE.
+        \item Finde eine einzelne Lösung $f_0$ der \underline{inhomogenen} ODE ("Partikularlösung") $\implies$ Die allgemeine Lösung ist $f_0+\sum_{j=1}^k \lambda_j f_j$ mit $\lambda_j\in \mathbb C$
+        \item Einsetzen der Anfangswerte in die allgemeine Lösung -> LGS für $\lambda_1, ..., \lambda_k$ mit eindeutiger Lösung
+        \end{enumerate}
+\end{tipbox}
+\subsection{Lineare ODE, erster Ordnung}
+\underline{Zu lösen}: $y'+ay=b$ mit gegebenen stetigen $a,b:I\rightarrow \mathbb C$
+\begin{tbox}
+    {Proposition 2.3.1}
+    Die Lösungen von $y'+ay=0$ sind genau $f(x)=ze^{-A(x)}$ für A einer Stammfunktion von a und $z\in \mathbb C$\\[3pt]
+    \textbf{Beiweis}: Notizen \today
+\end{tbox}
+\begin{tipbox}
+    {Lösen der inhomogenen ODE durch "Variation der Konstruktion"}
+    \textbf{Zu lösen}: $y'+ay=b$\\
+    \textbf{Ansatz}: $f(x)=z(x) \cdot e^{-A(x)}$\\
+    In ODE einsetzen: $f'(x)+a(x)f(x)=b(x)\\\iff z'(x)\cdot e^{-A(x)}+ z(x)\cdot (-a(x))\cdot^{-A(x)}+a(x)z(x)\cdot e^{-A(x)}=b(x)\\\iff z'(x)\cdot e^{-A(x)}=b(x)\\\iff z'(x)=e^{A(x)}\cdot b(x)$\\
+    Wähle für $z$ eine Stammfunktion von $e^{A(x)}\cdot b(x)$\\[5pt]
+    Bsp. Notizen \today
+\end{tipbox}
+\subsection{Lineare ODEs mit konstanten Koeffizienten}
+$y^(k)+a_{k-1}y^{(k-1)}+...+a_0y=b$ mit $a_0,...,a_{k-1}\in\mathbb C$
+\end{document}
